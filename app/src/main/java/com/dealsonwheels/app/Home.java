@@ -1,10 +1,23 @@
 package com.dealsonwheels.app;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,11 +30,18 @@ import android.view.MenuItem;
 
 import com.dealsonwheels.app.homepage_fragments.HomePagerAdapter;
 
+import java.io.IOException;
+import java.util.List;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "Home";
     private HomePagerAdapter mHomePagerAdapter;
     private ViewPager mViewPager;
+    private Location mlocation;
+    private  LocationManager locationManager;
+    private PermissionManager pm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +49,6 @@ public class Home extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         // set the home pager
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager(),getApplicationContext());
@@ -64,6 +83,16 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /* check if permission for accessing location is granted
+        *   if permission not granted ask for permission and then fetch location when permission is granted
+        * */
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            pm = new PermissionManager(Home.this);
+            pm.checkLocationPermission();
+        }
+
+        fetchLocation();
     }
 
     @Override
@@ -79,7 +108,7 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
 
@@ -91,7 +120,17 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+        if (id == R.id.location_icon){
+            Log.d(TAG, "clicked on location item");
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                pm = new PermissionManager(Home.this);
+                pm.checkLocationPermission();
+            }else {
+                fetchLocation();
+            }
             return true;
         }
 
@@ -121,5 +160,103 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case PermissionManager.LOCATION_PERMISSION_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission is now granted
+                    // we can extract the location
+                    fetchLocation();
+
+                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+                    Log.e(TAG, "onRequestPermissionsResult: location permission denied" );
+                }
+                return;
+        }
+    }
+
+    private void fetchLocation() {
+        Log.d(TAG, "fetchLocation: ");
+        final LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Location Changes", location.toString());
+                mlocation = location;
+                locationManager.removeUpdates(this);
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    System.out.println(addresses.get(0).getPostalCode());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.d("Status Changed", String.valueOf(status));
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Log.d("Provider Enabled", provider);
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Log.d("Provider Disabled", provider);
+            }
+        };
+
+        // Now first make a criteria with your requirements
+        // this is done to save the battery life of the device
+        // there are various other other criteria you can search for..
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setSpeedRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+
+        // Now create a location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // This is the Best And IMPORTANT part
+        Looper looper = null;
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "fetchLocation: extraction location");
+            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+                Log.d(TAG, "fetchLocation: network provider enabled");
+            if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER))
+                Log.d(TAG, "fetchLocation: passive provider enabled");
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                Log.d(TAG, "fetchLocation: gps provider enabled");
+
+
+//            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener,looper);
+//            locationManager.requestSingleUpdate(LocationManager.PASSIVE_PROVIDER, locationListener,looper);
+//            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener,looper);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }else
+            Log.d(TAG, "fetchLocation: don't have enough permission to access gps");
+
+
     }
 }
