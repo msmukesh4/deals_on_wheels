@@ -1,11 +1,14 @@
 package com.dealsonwheels.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -22,6 +25,7 @@ import java.util.HashMap;
 public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private SliderLayout imageSlider;
+    private TextView tvSkip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +37,15 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_slide_show);
 
+        tvSkip = (TextView) findViewById(R.id.tv_skip);
+        tvSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeSlideShow.this,Home.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.entry_animation_right, R.anim.exit_animation_left);
+            }
+        });
         imageSlider = (SliderLayout)findViewById(R.id.slider);
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
         file_maps.put("one title",R.drawable.one);

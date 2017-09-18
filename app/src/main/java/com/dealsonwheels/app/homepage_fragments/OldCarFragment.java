@@ -2,12 +2,15 @@ package com.dealsonwheels.app.homepage_fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dealsonwheels.app.R;
+
+import io.apptik.widget.MultiSlider;
 
 /**
  * Created by mukesh on 13/9/17.
@@ -16,6 +19,10 @@ import com.dealsonwheels.app.R;
 public class OldCarFragment extends Fragment{
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String TAG = "Old Car Fragment";
+    private TextView priceRange;
+    private int PRICE_SLIDER_MIN_RANGE = 0;
+    private int PRICE_SLIDER_MAX_RANGE = 31;
 
     public OldCarFragment() {
     }
@@ -38,7 +45,41 @@ public class OldCarFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_oldcar, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
         textView.setText("Old Car");
+
+        priceRange = (TextView) rootView.findViewById(R.id.price_range);
+        MultiSlider multiSlider = (MultiSlider) rootView.findViewById(R.id.range_slider);
+        multiSlider.setMin(PRICE_SLIDER_MIN_RANGE);
+        multiSlider.setMax(PRICE_SLIDER_MAX_RANGE);
+        changePriceRange(multiSlider);
+
+        multiSlider.setOnThumbValueChangeListener(new MultiSlider.OnThumbValueChangeListener() {
+            @Override
+            public void onValueChanged(MultiSlider multiSlider, MultiSlider.Thumb thumb, int thumbIndex, int value) {
+                if (thumbIndex == 0) {
+                    Log.e(TAG, "onValueChanged: min :: "+String.valueOf(value));
+                } else {
+                    Log.e(TAG, "onValueChanged: max :: "+String.valueOf(value));
+                }
+                changePriceRange(multiSlider);
+            }
+        });
+
         return rootView;
+    }
+
+    private void changePriceRange(MultiSlider multiSlider){
+        if (multiSlider.getThumb(0).getValue() == PRICE_SLIDER_MIN_RANGE &&
+                multiSlider.getThumb(1).getValue() == PRICE_SLIDER_MAX_RANGE){
+            priceRange.setText("All Range");
+        }else if (multiSlider.getThumb(0).getValue() == PRICE_SLIDER_MIN_RANGE &&
+                multiSlider.getThumb(1).getValue() != PRICE_SLIDER_MAX_RANGE){
+            priceRange.setText("Below "+multiSlider.getThumb(1).getValue()+" lakh");
+        }else if (multiSlider.getThumb(0).getValue() != PRICE_SLIDER_MIN_RANGE &&
+                multiSlider.getThumb(1).getValue() == PRICE_SLIDER_MAX_RANGE){
+            priceRange.setText("Above "+multiSlider.getThumb(0).getValue()+" lakh");
+        }else {
+            priceRange.setText(multiSlider.getThumb(0).getValue()+" lakh - "+multiSlider.getThumb(1).getValue()+" lakh");
+        }
     }
 
 }

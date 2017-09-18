@@ -1,8 +1,10 @@
 package com.dealsonwheels.app;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -27,6 +29,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.dealsonwheels.app.homepage_fragments.HomePagerAdapter;
 
@@ -42,6 +51,7 @@ public class Home extends AppCompatActivity
     private Location mlocation;
     private  LocationManager locationManager;
     private PermissionManager pm;
+    private Dialog locationAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +103,7 @@ public class Home extends AppCompatActivity
         }
 
         fetchLocation();
+
     }
 
     @Override
@@ -125,12 +136,13 @@ public class Home extends AppCompatActivity
 //        }
         if (id == R.id.location_icon){
             Log.d(TAG, "clicked on location item");
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                pm = new PermissionManager(Home.this);
-                pm.checkLocationPermission();
-            }else {
-                fetchLocation();
-            }
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                pm = new PermissionManager(Home.this);
+//                pm.checkLocationPermission();
+//            }else {
+//                fetchLocation();
+//            }
+            showLocationDialog();
             return true;
         }
 
@@ -185,6 +197,46 @@ public class Home extends AppCompatActivity
         }
     }
 
+    private void showLocationDialog(){
+
+        locationAlertDialog = new Dialog(Home.this);
+        locationAlertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        locationAlertDialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        locationAlertDialog.setContentView(R.layout.dialog_location_picker);
+
+        AutoCompleteTextView autoCompleteLocation = (AutoCompleteTextView) locationAlertDialog.findViewById(R.id.auto_complete_location);
+        Button btnConfirmCity = (Button) locationAlertDialog.findViewById(R.id.btn_confirm_city);
+        RelativeLayout layoutClose = (RelativeLayout) locationAlertDialog.findViewById(R.id.layout_close);
+
+        locationAlertDialog.setCancelable(false);
+        locationAlertDialog.setCanceledOnTouchOutside(false);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,
+                android.R.layout.simple_spinner_dropdown_item, Constants.LOCATION);
+        autoCompleteLocation.setAdapter(adapter);
+
+        locationAlertDialog.show();
+
+        btnConfirmCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                locationAlertDialog.dismiss();
+            }
+        });
+
+        layoutClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ");
+                locationAlertDialog.dismiss();
+            }
+        });
+
+
+
+    }
+
     private void fetchLocation() {
         Log.d(TAG, "fetchLocation: ");
         final LocationListener locationListener = new LocationListener() {
@@ -196,7 +248,8 @@ public class Home extends AppCompatActivity
                 Geocoder geocoder = new Geocoder(getApplicationContext());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    System.out.println(addresses.get(0).getPostalCode());
+                    System.out.println(addresses.get(0).toString());
+                    Constants.currentUser.setAddress(addresses.get(0));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -234,8 +287,8 @@ public class Home extends AppCompatActivity
         // Now create a location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        // This is the Best And IMPORTANT part
-        Looper looper = null;
+////         This is the Best And IMPORTANT part
+//        Looper looper = null;
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {

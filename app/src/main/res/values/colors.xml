@@ -4,5 +4,22 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="hints_color">#adadad</color>
+    <color name="edit_text_hints">#C6C6C6</color>
+
+
+    // buttons color start
+    <color name="primary">#4a8bfc</color>
+    <color name="primary_dark">#297abb</color>
+
+    <color name="danger">#ED5565</color>
+    <color name="danger_dark">#d31527</color>
+
+    <color name="success">#23c6c8</color>
+    <color name="success_dark">#127f6f</color>
+    // button color end
+
+
     <color name="disabled_text">#adadad</color>
+    <color name="ultra_dark">#29303F</color>
 </resources>
