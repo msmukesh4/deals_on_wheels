@@ -1,13 +1,16 @@
 package com.dealsonwheels.app.homepage_fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.dealsonwheels.app.CarsListActivity;
 import com.dealsonwheels.app.R;
 
 import io.apptik.widget.MultiSlider;
@@ -21,6 +24,7 @@ public class OldCarFragment extends Fragment{
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String TAG = "Old Car Fragment";
     private TextView priceRange;
+    private Button btnFindCars;
     private int PRICE_SLIDER_MIN_RANGE = 0;
     private int PRICE_SLIDER_MAX_RANGE = 31;
 
@@ -45,6 +49,16 @@ public class OldCarFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_oldcar, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
         textView.setText("Old Car");
+
+        btnFindCars = (Button) rootView.findViewById(R.id.btn_find_car);
+        btnFindCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CarsListActivity.class);
+                intent.putExtra("type",CarsListActivity.OLD_CARS);
+                startActivity(intent);
+            }
+        });
 
         priceRange = (TextView) rootView.findViewById(R.id.price_range);
         MultiSlider multiSlider = (MultiSlider) rootView.findViewById(R.id.range_slider);
