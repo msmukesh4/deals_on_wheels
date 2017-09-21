@@ -24,6 +24,8 @@ public class Car {
     String location;
     String channel;
     String profileImageUrl;
+    long price;
+
 
     public Car(){};
 
@@ -31,7 +33,7 @@ public class Car {
                long kilometer, String fuelType, String transmission,
                String soldBy, String numberOfOwner, String registeredAt,
                String insurance, String lifeTimeTax, int profileId, String primaryImageUrl,
-               String firstName, String middleName, String lastName, String location, String channel, String profileImageUrl) {
+               String firstName, String middleName, String lastName, String location, String channel, String profileImageUrl, long price) {
         this.productId = productId;
         this.productName = productName;
         this.yearOfMake = yearOfMake;
@@ -51,6 +53,7 @@ public class Car {
         this.location = location;
         this.channel = channel;
         this.profileImageUrl = profileImageUrl;
+        this.price = price;
     }
 
     public int getProductId() {
@@ -203,5 +206,13 @@ public class Car {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="10dp"
+    app:cardUseCompatPadding="true"
+    android:background="#fff">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/layout_close"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_close_gery"/>
+
+                </RelativeLayout>
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_margin="16dp"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:background="@drawable/grey_circle">-->
+
+                    <!--<android.support.v7.widget.AppCompatImageView-->
+                        <!--android:id="@+id/image"-->
+                        <!--android:layout_width="35dp"-->
+                        <!--android:layout_height="35dp"-->
+                        <!--android:layout_centerInParent="true"-->
+                        <!--android:src="@drawable/ic_location_white"/>-->
+
+                <!--</RelativeLayout>-->
+
+                <TextView
+                    android:layout_marginTop="36dp"
+                    android:id="@+id/title"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textSize="19sp"
+                    android:textColor="#1d1d1d"
+                    android:text="Provide your conatact number"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:text="the seller will contact you"
+                android:textColor="#3d3d3d"
+                android:textSize="14dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:src="@drawable/ic_phone_dark_grey"
+                    android:layout_gravity="bottom"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_contact_number"
+                        android:layout_width="match_parent"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:layout_height="48dp"
+                        android:hint="Mobile Number"
+                        android:textSize="16sp"
+                        style="@style/EditTextSingleLineStyle"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_confirm_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:textSize="15sp"
+                android:text="Send"
+                android:theme="@style/ButtonDanger"/>
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.v7.widget.CardView>

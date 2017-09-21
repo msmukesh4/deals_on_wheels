@@ -1,19 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/iv_new_car_card_view"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_below="@+id/iv_banner"
+    card_view:cardBackgroundColor="#fff"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/primary_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/car_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="car name"/>
+        <FrameLayout
+            android:id="@+id/fl"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/primary_image"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                android:id="@+id/image_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+
+
+        <TextView
+            android:id="@+id/car_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="car name"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@+id/car_name"
+            android:text="price"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/kilometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kilometer"
+            android:layout_below="@id/price"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/kilometer"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/price"
+            android:text="|" />
+
+        <TextView
+            android:id="@+id/fuel_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView4"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/price"
+            android:text="fuel_type" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/price"
+            android:layout_toRightOf="@+id/fuel_type"
+            android:text="|" />
+
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_below="@+id/price"
+            android:layout_marginTop="12dp"
+            android:text="year" />
+
+        <TextView
+            android:id="@+id/seller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="seller name"
+            android:layout_below="@+id/kilometer"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/kilometer"
+            android:layout_toRightOf="@+id/seller_name"
+            android:paddingTop="8dp"
+            android:text="," />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toLeftOf="@+id/textView3"
+            android:layout_toStartOf="@+id/textView3"
+            android:text="location"
+            card_view:layout_constraintStart_toEndOf="@+id/textView2"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="177dp" />
+
+        <Button
+            android:id="@+id/btn_show_interest"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Show Interest"
+            android:theme="@style/ButtonDanger"
+            android:layout_below="@+id/seller_name"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
