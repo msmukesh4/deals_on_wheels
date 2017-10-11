@@ -134,6 +134,8 @@ public class SliderLayout extends RelativeLayout{
 
     private boolean mAutoCycle;
 
+    public static boolean mShowText = true;
+
     /**
      * the duration between animation.
      */
@@ -320,6 +322,14 @@ public class SliderLayout extends RelativeLayout{
         }
         mAutoCycle = false;
         mCycling = false;
+    }
+
+    public void setmShowText(boolean value){
+        mShowText = value;
+    }
+
+    public boolean getmShowText(){
+        return mShowText;
     }
 
     /**

@@ -56,7 +56,6 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
-                    .description(name)
                     .image(file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
@@ -71,6 +70,7 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
         imageSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         imageSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         imageSlider.stopAutoCycle();
+        imageSlider.setmShowText(true);
 //        imageSlider.setCustomAnimation(new DescriptionAnimation());
 //        imageSlider.setDuration(0);
         imageSlider.addOnPageChangeListener(this);

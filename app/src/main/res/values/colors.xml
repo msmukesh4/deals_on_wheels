@@ -22,4 +22,5 @@
 
     <color name="disabled_text">#adadad</color>
     <color name="ultra_dark">#29303F</color>
+    <color name="swipe_tabs_indicator">#fff</color>
 </resources>

@@ -1,5 +1,7 @@
 package com.dealsonwheels.app.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by mukesh on 20/9/17.
  */
@@ -25,6 +27,7 @@ public class Car {
     String channel;
     String profileImageUrl;
     long price;
+    ArrayList<String> extraImages;
 
 
     public Car(){};
@@ -54,6 +57,7 @@ public class Car {
         this.channel = channel;
         this.profileImageUrl = profileImageUrl;
         this.price = price;
+        this.extraImages = new ArrayList<>();
     }
 
     public int getProductId() {
@@ -214,5 +218,18 @@ public class Car {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+
+    public ArrayList<String> getExtraImages() {
+        return extraImages;
+    }
+
+    public void setExtraImages(ArrayList<String> extraImages) {
+        this.extraImages = extraImages;
+    }
+
+    public void addExtraImage(String imageUrl){
+        this.extraImages.add(imageUrl);
     }
 }

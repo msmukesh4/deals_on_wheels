@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/carSlides"
+            android:layout_width="match_parent"
+            custom:auto_cycle="true"
+            custom:pager_animation="Accordion"
+            android:layout_height="200dp"/>
+
+        <TextView
+            android:id="@+id/car_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carSlides"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:text="car name"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/car_name"
+            android:text="model"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/model"
+            android:text="price"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/price"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="location"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_alignTop="@+id/location"
+            android:layout_toLeftOf="@+id/location"
+            android:layout_toStartOf="@+id/location"
+            android:src="@drawable/ic_location_grey" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_below="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/extra_values"
+            android:layout_below="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/year"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="year value"/>
+
+                <TextView
+                    android:id="@+id/lbl_year"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="YEAR"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/kilometer"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,00,000"/>
+
+                <TextView
+                    android:id="@+id/lbl_kilometer"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="KILOMETER"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/fuel_type"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diesel"/>
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="FUEL TYPE"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/transmission"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Automatic"/>
+
+                <TextView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="TRANSMISSION"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_below="@+id/extra_values"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_show_interest"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Show Interest"
+            android:theme="@style/ButtonDanger"
+            android:layout_below="@+id/view2"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_show_interest">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/car_details_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/car_details_tab_height"
+                app:tabMaxWidth="0dp"
+                app:tabGravity="fill"
+                android:background="@color/colorPrimary"
+                app:tabIndicatorColor="@color/swipe_tabs_indicator"
+                app:tabTextColor="@color/disabled_text"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="@color/white"
+                app:tabMode="fixed"/>
+
+            <android.support.v4.view.ViewPager
+                android:layout_below="@+id/car_details_tabs"
+                android:id="@+id/car_details_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/car_details_viewpager_height"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

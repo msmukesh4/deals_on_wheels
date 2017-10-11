@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="button_text_size">16dp</dimen>
+    <dimen name="car_details_tab_height">54dp</dimen>
+    <dimen name="car_details_viewpager_height">500dp</dimen>
 </resources>
