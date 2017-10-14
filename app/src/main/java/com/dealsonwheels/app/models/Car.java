@@ -1,5 +1,7 @@
 package com.dealsonwheels.app.models;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,33 @@ public class Car {
         this.profileImageUrl = profileImageUrl;
         this.price = price;
         this.extraImages = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", yearOfMake=" + yearOfMake +
+                ", kilometer=" + kilometer +
+                ", fuelType='" + fuelType + '\'' +
+                ", transmission='" + transmission + '\'' +
+                ", soldBy='" + soldBy + '\'' +
+                ", numberOfOwner='" + numberOfOwner + '\'' +
+                ", registeredAt='" + registeredAt + '\'' +
+                ", insurance='" + insurance + '\'' +
+                ", lifeTimeTax='" + lifeTimeTax + '\'' +
+                ", profileId=" + profileId +
+                ", primaryImageUrl='" + primaryImageUrl + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", location='" + location + '\'' +
+                ", channel='" + channel + '\'' +
+                ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", price=" + price +
+                ", extraImages=" + extraImages +
+                '}';
     }
 
     public int getProductId() {

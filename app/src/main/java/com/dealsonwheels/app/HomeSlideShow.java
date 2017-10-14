@@ -43,7 +43,7 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
             public void onClick(View v) {
                 Intent intent = new Intent(HomeSlideShow.this,Home.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.entry_animation_right, R.anim.exit_animation_left);
+//                overridePendingTransition(R.anim.entry_animation_right, R.anim.exit_animation_left);
             }
         });
         imageSlider = (SliderLayout)findViewById(R.id.slider);
@@ -56,6 +56,7 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
             TextSliderView textSliderView = new TextSliderView(this);
             // initialize a SliderLayout
             textSliderView
+                    .description(name)
                     .image(file_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);

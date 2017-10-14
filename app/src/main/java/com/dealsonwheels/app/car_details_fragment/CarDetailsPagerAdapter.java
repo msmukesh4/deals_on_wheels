@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.dealsonwheels.app.R;
 import com.dealsonwheels.app.homepage_fragments.NewCarFragment;
 import com.dealsonwheels.app.homepage_fragments.OldCarFragment;
+import com.dealsonwheels.app.models.Car;
+
+import org.json.JSONObject;
 
 /**
  * Created by mukesh on 11/10/17.
@@ -20,8 +23,10 @@ import com.dealsonwheels.app.homepage_fragments.OldCarFragment;
 public class CarDetailsPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
-    public CarDetailsPagerAdapter(FragmentManager fm, Context context) {
+    private JSONObject carJson;
+    public CarDetailsPagerAdapter(FragmentManager fm, Context context, JSONObject carJson) {
         super(fm);
+        this.carJson = carJson;
         this.context = context;
     }
 
@@ -29,11 +34,11 @@ public class CarDetailsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return OverviewFragment.newInstance();
+                return OverviewFragment.newInstance(carJson);
             case 1:
-                return FeaturesFragment.newInstance();
+                return FeaturesFragment.newInstance(carJson);
             case 2:
-                return SpecificationFragment.newInstance();
+                return SpecificationFragment.newInstance(carJson);
             default:
                 return null;
         }

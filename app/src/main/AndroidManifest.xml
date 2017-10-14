@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".CarDetailsActivity"
+        <activity android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
 
         <activity android:name=".CarsListActivity"/>
 
-        <!--<activity android:name=".CarDetailsActivity"></activity>-->
+        <activity android:name=".CarDetailsActivity"></activity>
 
     </application>
 
