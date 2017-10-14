@@ -1,6 +1,7 @@
 package com.dealsonwheels.app;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -206,6 +207,7 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
     @Override
     public void onSliderClick(BaseSliderView slider) {
         Toast.makeText(this,slider.getBundle().get("extra") + "",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(),CarImageSlidesActivity.class));
     }
 
     @Override

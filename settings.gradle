@@ -1,1 +1,1 @@
-include ':app', ':ImageSlideShow'
+include ':app', ':ImageSlideShow', ':touch-gallery-library'

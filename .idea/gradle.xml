@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ImageSlideShow" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/touch-gallery-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
