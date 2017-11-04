@@ -43,6 +43,8 @@
 
         <activity android:name=".CarImageSlidesActivity"></activity>
 
+        <activity android:name=".NewCarDetailsSelectActivity"></activity>
+
     </application>
 
 </manifest>

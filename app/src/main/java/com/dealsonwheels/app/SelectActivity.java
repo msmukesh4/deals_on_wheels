@@ -1,5 +1,6 @@
 package com.dealsonwheels.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+
+import com.dealsonwheels.app.models.StaticData;
+
+import static com.dealsonwheels.app.Constants.currentUser;
 
 /**
  * Created by mukesh on 17/9/17.
@@ -56,7 +61,13 @@ public class SelectActivity extends AppCompatActivity {
                     autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(SelectActivity.this,CarDetailsActivity.class);
+                            intent.putExtra("product_id", String.valueOf(currentUser.staticData.cars.get(position+1).getProductId()));
+
                             Log.e(TAG, "onItemClick: "+parent.getItemAtPosition(position));
+                            Log.e(TAG, "product_id: "+currentUser.staticData.cars.get(position+1).getProductId());
+                            startActivity(intent);
+                            finish();
                         }
                     });
 

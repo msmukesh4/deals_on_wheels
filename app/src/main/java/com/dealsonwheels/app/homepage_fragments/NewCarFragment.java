@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dealsonwheels.app.NewCarDetailsSelectActivity;
 import com.dealsonwheels.app.R;
 import com.dealsonwheels.app.SelectActivity;
 
@@ -47,6 +49,7 @@ public class NewCarFragment extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_newcar, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        Button btnFindCars = (Button) rootView.findViewById(R.id.btn_find_car);
         textView.setText("New Car");
 
         EditText etCarName = (EditText) rootView.findViewById(R.id.et_car_name);
@@ -56,6 +59,14 @@ public class NewCarFragment extends Fragment{
                 Intent intent = new Intent(getContext(),SelectActivity.class);
                 intent.putExtra("type","car_name");
                 getActivity().startActivityForResult(intent,1);
+            }
+        });
+
+        btnFindCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),NewCarDetailsSelectActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

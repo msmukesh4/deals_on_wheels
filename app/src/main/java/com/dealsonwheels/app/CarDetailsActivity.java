@@ -71,6 +71,8 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 
         fetchCarDetails(getIntent().getStringExtra("product_id"));
 
+        Toast.makeText(getApplicationContext(),getIntent().getStringExtra("product_id"),Toast.LENGTH_SHORT).show();
+
     }
 
     private void fetchCarDetails(String productId) {

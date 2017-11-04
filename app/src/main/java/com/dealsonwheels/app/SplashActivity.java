@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
         Thread timer = new Thread() {
             public void run() {
                 try {
+                    StaticDataManager.requestStaticData();
                     sleep(Constants.SPLASH_ACTIVITY_TIMER);
                 } catch (InterruptedException iEx) {
                     iEx.printStackTrace();

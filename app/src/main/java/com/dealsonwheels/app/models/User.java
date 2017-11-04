@@ -12,8 +12,11 @@ public class User {
     private Address address;
     private String contactNumber;
     private String currentCitySearch;
+    public StaticData staticData;
 
-    public User(){}
+    public User(){
+        staticData = new StaticData();
+    }
 
     public User(String firstName, String lastName, Address address, String contactNumber) {
         this.firstName = firstName;

@@ -32,7 +32,10 @@ public class Car {
     ArrayList<String> extraImages;
 
 
-    public Car(){};
+    public Car(int productId, String productName){
+        this.productId = productId;
+        this.productName = productName;
+    };
 
     public Car(int productId, String productName, int yearOfMake,
                long kilometer, String fuelType, String transmission,
