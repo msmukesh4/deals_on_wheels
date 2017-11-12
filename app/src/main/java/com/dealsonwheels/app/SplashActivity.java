@@ -36,10 +36,11 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (InterruptedException iEx) {
                     iEx.printStackTrace();
                 } finally {
-                    Intent intent = new Intent(SplashActivity.this,HomeSlideShow.class);
+                    Intent intent = new Intent(SplashActivity.this,IntroActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                     overridePendingTransition(R.anim.entry_animation_right, R.anim.exit_animation_left);
+                    finish();
                 }
             }
         };

@@ -5,26 +5,23 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by mukesh on 4/11/17.
+ * Created by mukesh on 12/11/17.
  */
 
-public class Brand implements Serializable{
+public class City implements Serializable {
     @SerializedName("ID") public int id;
-    @SerializedName("ProductBrand1") public String name;
-    @SerializedName("BrandImageUrl") public String url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+    @SerializedName("CityName") public String name;
 
-    public Brand(int id, String name, String url) {
+    public City(int id, String name) {
         this.id = id;
         this.name = name;
-        this.url = url;
     }
 
     @Override
     public String toString() {
-        return "Brand{" +
+        return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
                 '}';
     }
 
@@ -42,13 +39,5 @@ public class Brand implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

@@ -43,6 +43,7 @@ public class HomeSlideShow extends AppCompatActivity implements BaseSliderView.O
             public void onClick(View v) {
                 Intent intent = new Intent(HomeSlideShow.this,Home.class);
                 startActivity(intent);
+                finish();
 //                overridePendingTransition(R.anim.entry_animation_right, R.anim.exit_animation_left);
             }
         });

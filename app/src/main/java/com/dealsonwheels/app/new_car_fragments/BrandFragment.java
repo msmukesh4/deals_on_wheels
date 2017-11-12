@@ -98,7 +98,8 @@ public class BrandFragment extends Fragment{
                 brandHolder = (BrandHolder) convertView.getTag();
             }
 
-            Picasso.with(context).load(brandList.get(position).url).into(brandHolder.ivBrand);
+//            Picasso.with(context).load(brandList.get(position).url).into(brandHolder.ivBrand);
+            Picasso.with(context).load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA").into(brandHolder.ivBrand);
             brandHolder.tvName.setText(brandList.get(position).name);
 
             convertView.setOnClickListener(new View.OnClickListener() {

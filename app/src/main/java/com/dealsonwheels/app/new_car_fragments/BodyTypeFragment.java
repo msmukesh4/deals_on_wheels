@@ -93,7 +93,8 @@ public class BodyTypeFragment extends Fragment {
                 bodyTypeHolder = (BodyTypeHolder) convertView.getTag();
             }
 
-            Picasso.with(context).load(bodyTypeList.get(position).url).into(bodyTypeHolder.ivBodyType);
+//            Picasso.with(context).load(bodyTypeList.get(position).url).into(bodyTypeHolder.ivBodyType);
+            Picasso.with(context).load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA").into(bodyTypeHolder.ivBodyType);
             bodyTypeHolder.tvName.setText(bodyTypeList.get(position).name);
 
             convertView.setOnClickListener(new View.OnClickListener() {

@@ -29,6 +29,9 @@
 
         </activity>
 
+        <activity android:name=".IntroActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity android:name=".SelectActivity"
             android:theme="@style/AppTheme.NoActionBar">
 

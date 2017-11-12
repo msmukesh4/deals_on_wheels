@@ -48,9 +48,9 @@ public class NewCarFragment extends Fragment{
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_newcar, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
         Button btnFindCars = (Button) rootView.findViewById(R.id.btn_find_car);
-        textView.setText("New Car");
+//        textView.setText("New Car");
 
         EditText etCarName = (EditText) rootView.findViewById(R.id.et_car_name);
         etCarName.setOnClickListener(new View.OnClickListener() {
