@@ -12,6 +12,7 @@ public class Constants {
     public static final String INITIAL_DATA = "InitData";
     public static final String SAVE_CONTACT_NUMBER = "SavePhone";
     public static final int LOG_LEVEL = APIClient.LOG_REQ_RES;
+    public static final String PRODUCT_LIST = "GetProducts";
 
     public static User currentUser = new User();
 

@@ -27,6 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dealsonwheels.app.api.APIClient;
+import com.dealsonwheels.app.api.APIInterface;
+import com.dealsonwheels.app.api.CarListAPIResponse;
 import com.dealsonwheels.app.models.Car;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -36,6 +39,10 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by mukesh on 20/9/17.
@@ -57,11 +64,20 @@ public class CarsListActivity extends AppCompatActivity {
         listViewCars = (ListView) findViewById(R.id.listview_cars);
 
         String listType = getIntent().getStringExtra("type");
-        listType = OLD_CARS;
+        if (null == listType)
+            listType = OLD_CARS;
         if(listType != null){
-
-            fetchCarList(listType);
-
+            try {
+                JSONObject params = new JSONObject();
+                params.put("prdType",listType);
+                params.put("Min_Price", getIntent().getStringExtra("min_price"));
+                params.put("Max_Price", getIntent().getStringExtra("max_price"));
+                params.put("Body_Type", getIntent().getStringExtra("body_type_id"));
+                params.put("BrandId", getIntent().getStringExtra("brand_type_id"));
+                fetchCarList(listType, params);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }else {
             Log.e(TAG, "onCreate: Invalid List Type parameter" );
             Toast.makeText(getApplicationContext(),R.string.general_error_msg,Toast.LENGTH_LONG).show();
@@ -70,32 +86,55 @@ public class CarsListActivity extends AppCompatActivity {
     }
 
     // fetch cars list from the server
-    private void fetchCarList(String listType) {
+    private void fetchCarList(String listType, JSONObject params) {
         try {
-            String data = "{\"data\":[{\"ProductId\": 1, \"ProductName\": \"Bugatti Veyron\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 40000 },{\"ProductId\": 2, \"ProductName\": \"Lemborghini Gallordo\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 100000 },{\"ProductId\": 3, \"ProductName\": \"Maruti Car\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"https://cars.usnews.com/static/images/article/201510/125272/MINIP90139264_highRes.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 100000 }]}";
-            JSONObject jsonObject = new JSONObject(data);
+
+            APIInterface apiInterface = APIClient.getAPIService(Constants.LOG_LEVEL);
+            Call<CarListAPIResponse> call = apiInterface.getCarList(params);
+            call.enqueue(new Callback<CarListAPIResponse>() {
+                @Override
+                public void onResponse(Call<CarListAPIResponse> call, Response<CarListAPIResponse> response) {
+
+                    Log.d("StaticDataManager", "onResponse: "+response.code());
+                    Log.d(TAG, "onResponse: "+response.body().toString());
+                    if (response.body().getCarList().size() > 0)
+                        createListView(response.body().getCarList());
+                    else
+                        Toast.makeText(getApplicationContext(),"No Cars Found with the specified data",Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<CarListAPIResponse> call, Throwable t) {
+                    Log.e(TAG, "onFailure: "+t.getMessage());
+                }
+            });
+
+
+
+//            String data = "{\"data\":[{\"ProductId\": 1, \"ProductName\": \"Bugatti Veyron\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 40000 },{\"ProductId\": 2, \"ProductName\": \"Lemborghini Gallordo\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 100000 },{\"ProductId\": 3, \"ProductName\": \"Maruti Car\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"https://cars.usnews.com/static/images/article/201510/125272/MINIP90139264_highRes.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 100000 }]}";
+//            JSONObject jsonObject = new JSONObject(data);
 
 //            http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png
 
-            parseAndStoreData(jsonObject);
-        } catch (JSONException e) {
+//            parseAndStoreData(jsonObject);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void parseAndStoreData(JSONObject jsonObject) {
-        carArrayList = new ArrayList<>();
-        for (int i = 0; i < jsonObject.optJSONArray("data").length(); i++) {
-            JSONObject carJson = jsonObject.optJSONArray("data").optJSONObject(i);
-            Car tempCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
-                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
-                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
-                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
-                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
-            carArrayList.add(tempCar);
-        }
-        createListView(carArrayList);
-    }
+//    private void parseAndStoreData(JSONObject jsonObject) {
+//        carArrayList = new ArrayList<>();
+//        for (int i = 0; i < jsonObject.optJSONArray("data").length(); i++) {
+//            JSONObject carJson = jsonObject.optJSONArray("data").optJSONObject(i);
+//            Car tempCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
+//                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
+//                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
+//                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
+//                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
+//            carArrayList.add(tempCar);
+//        }
+//        createListView(carArrayList);
+//    }
 
     private void createListView(ArrayList<Car> carArrayList) {
         if (carArrayList.size() > 0 ){
@@ -173,9 +212,13 @@ public class CarsListActivity extends AppCompatActivity {
                 }
             };
 
-            Picasso.with(context).load(carArrayList.get(position).getPrimaryImageUrl())
+            Picasso.with(context).load("http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png")
                     .error(R.drawable.blank_image_car)
                     .into(target);
+//
+//            Picasso.with(context).load(carArrayList.get(position).getPrimaryImageUrl())
+//                    .error(R.drawable.blank_image_car)
+//                    .into(target);
             carListHolder.ivCarPrimaryImage.setTag(target);
 
 

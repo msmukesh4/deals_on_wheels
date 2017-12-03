@@ -1,5 +1,7 @@
 package com.dealsonwheels.app.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -9,25 +11,45 @@ import java.util.ArrayList;
  */
 
 public class Car {
+    @SerializedName("ProductId")
     int productId;
+    @SerializedName("ProductName")
     String productName;
+    @SerializedName("YearOfMake")
     int yearOfMake;
+    @SerializedName("Kilometer")
     long kilometer;
+    @SerializedName("FuelType")
     String fuelType;
+    @SerializedName("Transmission")
     String transmission;
+    @SerializedName("SoldBy")
     String soldBy;
+    @SerializedName("NoOfOwner")
     String numberOfOwner;
+    @SerializedName("RegisteredAt")
     String registeredAt;
+    @SerializedName("Insurance")
     String insurance;
+    @SerializedName("LifeTimeTax")
     String lifeTimeTax;
+    @SerializedName("ProfileID")
     int profileId;
+    @SerializedName("PrimaryImageURL")
     String primaryImageUrl;
+    @SerializedName("FirstName")
     String firstName;
+    @SerializedName("MiddileName")
     String middleName;
+    @SerializedName("LastName")
     String lastName;
+    @SerializedName("Location")
     String location;
+    @SerializedName("Chanel")
     String channel;
+    @SerializedName("ProfileImageURL")
     String profileImageUrl;
+    @SerializedName("Price")
     long price;
     ArrayList<String> extraImages;
 
