@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.dealsonwheels.app.R;
-import com.dealsonwheels.app.StaticDataManager;
 import com.dealsonwheels.app.new_car_fragments.NewCarSelectViewPager;
 
 
@@ -68,7 +66,7 @@ public class NewCarDetailsSelectActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"lets move forward",Toast.LENGTH_SHORT).show();
                 body_id = intent.getStringExtra("body_id");
                 Intent mintent = new Intent(getApplicationContext(), CarsListActivity.class);
-                mintent.putExtra("type",CarsListActivity.NEW_CARS);
+                mintent.putExtra("type", CarsListActivity.NEW_CARS);
                 mintent.putExtra("min_price",min_price);
                 mintent.putExtra("max_price",max_price);
                 mintent.putExtra("body_type_id",body_id);

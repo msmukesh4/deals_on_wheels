@@ -8,11 +8,12 @@ import com.dealsonwheels.app.models.User;
  */
 
 public class Constants {
-    public static final int SPLASH_ACTIVITY_TIMER = 6000;
+    public static final int SPLASH_ACTIVITY_TIMER = 4000;
     public static final String INITIAL_DATA = "InitData";
     public static final String SAVE_CONTACT_NUMBER = "SavePhone";
     public static final int LOG_LEVEL = APIClient.LOG_REQ_RES;
     public static final String PRODUCT_LIST = "GetProducts";
+    public static final String PRODUCT_DETAILS = "GetProductsDetails";
 
     public static User currentUser = new User();
 

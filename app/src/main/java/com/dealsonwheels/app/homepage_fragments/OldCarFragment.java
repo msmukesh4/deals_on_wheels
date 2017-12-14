@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dealsonwheels.app.CarsListActivity;
+import com.dealsonwheels.app.CarsListActivityOld;
 import com.dealsonwheels.app.Constants;
 import com.dealsonwheels.app.R;
 
@@ -54,7 +55,7 @@ public class OldCarFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CarsListActivity.class);
-                intent.putExtra("type",CarsListActivity.OLD_CARS);
+                intent.putExtra("type", CarsListActivity.OLD_CARS);
                 startActivity(intent);
             }
         });

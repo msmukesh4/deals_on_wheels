@@ -21,6 +21,10 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.dealsonwheels.app.api.APIClient;
+import com.dealsonwheels.app.api.APIInterface;
+import com.dealsonwheels.app.api.CarDetailsAPIResponse;
+import com.dealsonwheels.app.api.CarListAPIResponse;
 import com.dealsonwheels.app.car_details_fragment.CarDetailsPagerAdapter;
 import com.dealsonwheels.app.models.Car;
 
@@ -29,6 +33,10 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by mukesh on 10/10/17.
@@ -77,26 +85,68 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 
     private void fetchCarDetails(String productId) {
         Toast.makeText(getApplicationContext(),productId,Toast.LENGTH_SHORT).show();
-        String data = "{\"data\": {\"ProductId\": 1, \"ProductName\": \"Bugatti Veyron\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 40000, \"OverviewData\": [{\"one\":\"one data\"}, {\"two\": \"two data\"}], \"FeaturesData\": [{\"one feature\":\"one data\"}, {\"two feature\": \"two data\"}], \"SpecificationData\": [{\"one spec\":\"one data\"}, {\"two spec\": \"two data\"}] }}";
-        saveCarDetails(data);
-    }
 
-    private void saveCarDetails(String data) {
         try {
-            Log.d(TAG, "saveCarDetails: "+data);
-            JSONObject carJson = new JSONObject(data).optJSONObject("data");
 
-            mCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
-                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
-                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
-                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
-                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
-            Log.d(TAG, "saveCarDetails: "+mCar);
-            SetUpUIWithData(carJson);
-        }catch (JSONException e){
+            APIInterface apiInterface = APIClient.getAPIService(Constants.LOG_LEVEL);
+            Call<CarDetailsAPIResponse> call = apiInterface.getCarDetails(Integer.valueOf(productId));
+            call.enqueue(new Callback<CarDetailsAPIResponse>() {
+                @Override
+                public void onResponse(Call<CarDetailsAPIResponse> call, Response<CarDetailsAPIResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "onResponse: " + response.body().getCarDetails().toString());
+                        saveCarDetails(response.body().getCarDetails());
+                    }else {
+                        Log.e(TAG, "onResponse: "+response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CarDetailsAPIResponse> call, Throwable t) {
+                    Log.e(TAG, "onFailure: "+t.getMessage());
+                }
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        String data = "{\"data\": {\"ProductId\": 1, \"ProductName\": \"Bugatti Veyron\",\"YearOfMake\": \"1998\",\"Kilometer\": \"2000\",\"FuelType\": \"Petrol\",\"Transmission\": \"Automatic\",\"SoldBy\": \"ABC\",\"NoOfOwner\": null,\"RegisteredAt\": null,\"Insurance\": null,\"LifeTimeTax\": null,\"ProfileID\": 1,\"PrimaryImageURL\": \"http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg\",\"FirstName\": \"Mohan \",\"MiddileName\": \"Motore\",\"LastName\": \"Ltd\",\"Location\": \"Kolkata\",\"Chanel\": \"App\", \"ProfileImageURL\": null, \"Price\": 40000, \"OverviewData\": [{\"one\":\"one data\"}, {\"two\": \"two data\"}], \"FeaturesData\": [{\"one feature\":\"one data\"}, {\"two feature\": \"two data\"}], \"SpecificationData\": [{\"one spec\":\"one data\"}, {\"two spec\": \"two data\"}] }}";
+//        saveCarDetails(data);
     }
+
+    private void saveCarDetails(JSONObject carJson) {
+//        try {
+//
+//            mCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
+//                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
+//                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
+//                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
+//                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
+//            Log.d(TAG, "saveCarDetails: "+mCar);
+//            SetUpUIWithData(carJson);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+    }
+
+//    private void saveCarDetails(String data) {
+//        try {
+//            Log.d(TAG, "saveCarDetails: "+data);
+//            JSONObject carJson = new JSONObject(data).optJSONObject("data");
+//
+//            mCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
+//                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
+//                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
+//                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
+//                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
+//            Log.d(TAG, "saveCarDetails: "+mCar);
+//            SetUpUIWithData(carJson);
+//        }catch (JSONException e){
+//            e.printStackTrace();
+//        }
+//    }
 
     private void SetUpUIWithData(JSONObject carJson){
 
