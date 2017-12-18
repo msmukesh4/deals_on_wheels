@@ -12,11 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dealsonwheels.app.R;
-import com.dealsonwheels.app.models.Car;
 
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * Created by mukesh on 11/10/17.
@@ -25,19 +25,22 @@ import org.json.JSONObject;
 public class OverviewFragment extends Fragment {
 
     private ListView listView;
-    private JSONArray overviewJson;
+    private org.json.simple.JSONObject overviewJson;
     private static final String TAG = "Overview Fragment";
+    private static OverviewFragment fragment;
     public OverviewFragment() {}
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static Fragment newInstance(JSONObject carJson) {
-        OverviewFragment fragment = new OverviewFragment();
-        Bundle args = new Bundle();
-        args.putString("overViewArray",carJson.optJSONArray("OverviewData").toString());
-        fragment.setArguments(args);
+    public static Fragment newInstance(String overviewJson) {
+        if (fragment == null) {
+            fragment = new OverviewFragment();
+            Bundle args = new Bundle();
+            args.putString("overViewArray", overviewJson.toString());
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
@@ -56,11 +59,9 @@ public class OverviewFragment extends Fragment {
         if (bundle != null) {
             String sOverview = bundle.getString("overViewArray");
             try {
-                overviewJson = new JSONArray(sOverview);
+                overviewJson = (org.json.simple.JSONObject) new JSONParser().parse(sOverview);
                 Log.d(TAG, "setupListView: OverView JSON :: "+overviewJson.toString());
                 listView.setAdapter(new OverviewAdapter(getContext(),overviewJson));
-            }catch (JSONException e){
-                e.printStackTrace();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -74,17 +75,19 @@ public class OverviewFragment extends Fragment {
 
         private Context context;
         private LayoutInflater inflater;
-        private JSONArray overviewJson;
+        private JSONObject overviewJson;
+        private Object[] key;
 
-        OverviewAdapter(Context context, JSONArray overviewJson){
+        OverviewAdapter(Context context, JSONObject overviewJson){
             this.context = context;
             this.overviewJson = overviewJson;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            key = overviewJson.keySet().toArray();
         }
 
         @Override
         public int getCount() {
-            return overviewJson.length();
+            return key.length;
         }
 
         @Override
@@ -109,13 +112,31 @@ public class OverviewFragment extends Fragment {
                 overviewHolder = (OverviewHolder) convertView.getTag();
             }
 
-            String key = overviewJson.optJSONObject(position).keys().next();
-            overviewHolder.tvKey.setText(key);
-            overviewHolder.tvValue.setText(overviewJson.optJSONObject(position).optString(key));
+            try {
+                overviewHolder.tvKey.setText(key[position].toString());
+                JSONArray jsonArray = (JSONArray) overviewJson.get(key[position].toString());
+                StringBuilder val = new StringBuilder();
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    if (i < jsonArray.size()-1)
+                        val.append(jsonArray.get(i)).append(", \n");
+                    else
+                        val.append(jsonArray.get(i)).append(".");
+                }
+                overviewHolder.tvValue.setText(val.toString());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
 
             return convertView;
         }
+    }
+
+    @Override
+    public void onStop() {
+        Log.e(TAG, "onStop: ");
+        fragment = null;
+        super.onStop();
     }
 
     private class OverviewHolder{

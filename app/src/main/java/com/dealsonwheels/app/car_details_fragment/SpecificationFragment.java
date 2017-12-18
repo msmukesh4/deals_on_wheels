@@ -14,9 +14,10 @@ import android.widget.TextView;
 import com.dealsonwheels.app.R;
 import com.dealsonwheels.app.models.Car;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * Created by mukesh on 11/10/17.
@@ -25,19 +26,22 @@ import org.json.JSONObject;
 public class SpecificationFragment extends Fragment {
 
     private ListView listView;
-    private JSONArray specificationJson;
+    private JSONObject specificationJson;
     private static final String TAG = "Specification Fragment";
+    private static SpecificationFragment fragment;
     public SpecificationFragment() {}
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static Fragment newInstance(JSONObject carJson) {
-        SpecificationFragment fragment = new SpecificationFragment();
-        Bundle args = new Bundle();
-        args.putString("specificationArray",carJson.optJSONArray("SpecificationData").toString());
-        fragment.setArguments(args);
+    public static Fragment newInstance(String specificationJson) {
+        if (null == fragment) {
+            fragment = new SpecificationFragment();
+            Bundle args = new Bundle();
+            args.putString("specificationArray", specificationJson);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
@@ -56,11 +60,9 @@ public class SpecificationFragment extends Fragment {
         if (bundle != null) {
             String sSpecification = bundle.getString("specificationArray");
             try {
-                specificationJson = new JSONArray(sSpecification);
+                specificationJson = (JSONObject) new JSONParser().parse(sSpecification);
                 Log.d(TAG, "setupListView: Specification JSON :: "+specificationJson.toString());
                 listView.setAdapter(new SpecificationAdapter(getContext(),specificationJson));
-            }catch (JSONException e){
-                e.printStackTrace();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -74,17 +76,19 @@ public class SpecificationFragment extends Fragment {
 
         private Context context;
         private LayoutInflater inflater;
-        private JSONArray specificationJson;
+        private JSONObject specificationJson;
+        private Object[] key;
 
-        SpecificationAdapter(Context context, JSONArray specificationJson){
+        SpecificationAdapter(Context context, JSONObject specificationJson){
             this.context = context;
             this.specificationJson = specificationJson;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            key = specificationJson.keySet().toArray();
         }
 
         @Override
         public int getCount() {
-            return specificationJson.length();
+            return key.length;
         }
 
         @Override
@@ -109,13 +113,30 @@ public class SpecificationFragment extends Fragment {
                 specificationHolder = (SpecificationHolder) convertView.getTag();
             }
 
-            String key = specificationJson.optJSONObject(position).keys().next();
-            specificationHolder.tvKey.setText(key);
-            specificationHolder.tvValue.setText(specificationJson.optJSONObject(position).optString(key));
-
+            try {
+                specificationHolder.tvKey.setText(key[position].toString());
+                JSONArray jsonArray = (JSONArray) specificationJson.get(key[position].toString());
+                StringBuilder val = new StringBuilder();
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    if (i < jsonArray.size()-1)
+                        val.append(jsonArray.get(i)).append(", \n");
+                    else
+                        val.append(jsonArray.get(i)).append(".");
+                }
+                specificationHolder.tvValue.setText(val.toString());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             return convertView;
         }
+    }
+
+    @Override
+    public void onStop() {
+        Log.e(TAG, "onStop: ");
+        fragment = null;
+        super.onStop();
     }
 
     private class SpecificationHolder{

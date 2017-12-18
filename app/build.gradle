@@ -26,7 +26,7 @@ dependencies {
     })
     implementation 'com.android.support:appcompat-v7:26.3.0'
     implementation 'com.android.support:design:26.3.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     compile project(':ImageSlideShow')
     compile project(':touch-gallery-library')
@@ -42,6 +42,9 @@ dependencies {
 
     // tutorial
     implementation 'com.github.apl-devs:appintro:v4.2.2'
+
+    //for json parsing in product details
+    compile "com.googlecode.json-simple:json-simple:1.1"
 }
 
 configurations.all {

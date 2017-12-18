@@ -27,6 +27,7 @@ import com.dealsonwheels.app.api.CarDetailsAPIResponse;
 import com.dealsonwheels.app.api.CarListAPIResponse;
 import com.dealsonwheels.app.car_details_fragment.CarDetailsPagerAdapter;
 import com.dealsonwheels.app.models.Car;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,20 +90,27 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
         try {
 
             APIInterface apiInterface = APIClient.getAPIService(Constants.LOG_LEVEL);
-            Call<CarDetailsAPIResponse> call = apiInterface.getCarDetails(Integer.valueOf(productId));
-            call.enqueue(new Callback<CarDetailsAPIResponse>() {
+            Call<Object> call = apiInterface.getCarDetails(Integer.valueOf(productId));
+            call.enqueue(new Callback<Object>() {
                 @Override
-                public void onResponse(Call<CarDetailsAPIResponse> call, Response<CarDetailsAPIResponse> response) {
+                public void onResponse(Call<Object> call, Response<Object> response) {
                     if (response.isSuccessful()) {
-                        Log.d(TAG, "onResponse: " + response.body().getCarDetails().toString());
-                        saveCarDetails(response.body().getCarDetails());
+                        Log.d(TAG, "onResponse: " + response.body().toString());
+                        try {
+                            JSONObject jsonResponse = new JSONObject(new Gson().toJson(response.body()));
+                            saveCarDetails(jsonResponse.getJSONObject("Data"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+//                        saveCarDetails(response.body().getCarDetails());
                     }else {
                         Log.e(TAG, "onResponse: "+response.message());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<CarDetailsAPIResponse> call, Throwable t) {
+                public void onFailure(Call<Object> call, Throwable t) {
                     Log.e(TAG, "onFailure: "+t.getMessage());
                 }
             });
@@ -116,19 +124,22 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 //        saveCarDetails(data);
     }
 
-    private void saveCarDetails(JSONObject carJson) {
-//        try {
-//
-//            mCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
-//                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
-//                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
-//                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
-//                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
-//            Log.d(TAG, "saveCarDetails: "+mCar);
-//            SetUpUIWithData(carJson);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+
+
+    private void saveCarDetails(JSONObject rootJson) {
+        try {
+            JSONObject carJson = (JSONObject) rootJson.optJSONArray("Product").get(0);
+            Log.d(TAG, "saveCarDetails: "+carJson.toString());
+            mCar = new Car(carJson.optInt("ProductId"), carJson.optString("ProductName"),carJson.optInt("YearOfMake"),carJson.optInt("Kilometer"),
+                    carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
+                    carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
+                    carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
+                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
+            Log.d(TAG, "saveCarDetails: "+mCar);
+            SetUpUIWithData(rootJson);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 //    private void saveCarDetails(String data) {
@@ -148,7 +159,7 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 //        }
 //    }
 
-    private void SetUpUIWithData(JSONObject carJson){
+    private void SetUpUIWithData(JSONObject rootJson) throws JSONException {
 
         // slide show of images
         HashMap<String,String> url_maps = new HashMap<String, String>();
@@ -201,7 +212,7 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
         tvTransmission.setText(mCar.getTransmission());
 
         // view pager
-        mCarDetailsPagerAdapter = new CarDetailsPagerAdapter(getSupportFragmentManager(),getApplicationContext(),carJson);
+        mCarDetailsPagerAdapter = new CarDetailsPagerAdapter(getSupportFragmentManager(),getApplicationContext(),rootJson);
         mViewPager.setAdapter(mCarDetailsPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -253,6 +264,7 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
     @Override
     protected void onStop() {
         carSliderLayout.stopAutoCycle();
+        Log.e(TAG, "onStop: ");
         super.onStop();
     }
 

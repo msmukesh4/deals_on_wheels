@@ -25,5 +25,5 @@ public interface APIInterface {
     Call<CarListAPIResponse> getCarList(@Body JSONObject params);
 
     @POST(Constants.PRODUCT_DETAILS)
-    Call<CarDetailsAPIResponse> getCarDetails(@Query("ProductId") int id);
+    Call<Object> getCarDetails(@Query("ProductId") int id);
 }

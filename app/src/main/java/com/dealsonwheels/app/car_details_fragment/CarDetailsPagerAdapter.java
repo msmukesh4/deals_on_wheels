@@ -14,6 +14,7 @@ import com.dealsonwheels.app.homepage_fragments.NewCarFragment;
 import com.dealsonwheels.app.homepage_fragments.OldCarFragment;
 import com.dealsonwheels.app.models.Car;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -23,22 +24,29 @@ import org.json.JSONObject;
 public class CarDetailsPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
-    private JSONObject carJson;
-    public CarDetailsPagerAdapter(FragmentManager fm, Context context, JSONObject carJson) {
+    private JSONObject rootJson;
+    private JSONObject overviewJson;
+    private JSONObject specificationJson;
+    private JSONObject featuresJson;
+    public CarDetailsPagerAdapter(FragmentManager fm, Context context, JSONObject rootJson) throws JSONException {
         super(fm);
-        this.carJson = carJson;
+        this.rootJson = rootJson;
         this.context = context;
+
+        overviewJson = (JSONObject) rootJson.optJSONArray("OverviewData").get(0);
+//        featuresJson = (JSONObject) rootJson.optJSONArray("FeaturesData").get(0);
+        specificationJson = (JSONObject) rootJson.optJSONArray("SpecificationData").get(0);
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return OverviewFragment.newInstance(carJson);
+                return OverviewFragment.newInstance(overviewJson.toString());
+//            case 1:
+//                return OverviewFragment.newInstance(overviewJson.toString());
             case 1:
-                return FeaturesFragment.newInstance(carJson);
-            case 2:
-                return SpecificationFragment.newInstance(carJson);
+                return SpecificationFragment.newInstance(specificationJson.toString());
             default:
                 return null;
         }
@@ -47,7 +55,7 @@ public class CarDetailsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 3 total pages.
-        return 3;
+        return 2;
     }
 
     @Override
@@ -55,9 +63,9 @@ public class CarDetailsPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return "Overview";
+//            case 1:
+//                return "Features";
             case 1:
-                return "Features";
-            case 2:
                 return "Specifications";
         }
         return "TAB";
