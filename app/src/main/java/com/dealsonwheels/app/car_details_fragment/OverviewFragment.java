@@ -113,16 +113,18 @@ public class OverviewFragment extends Fragment {
             }
 
             try {
-                overviewHolder.tvKey.setText(key[position].toString());
-                JSONArray jsonArray = (JSONArray) overviewJson.get(key[position].toString());
-                StringBuilder val = new StringBuilder();
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    if (i < jsonArray.size()-1)
-                        val.append(jsonArray.get(i)).append(", \n");
-                    else
-                        val.append(jsonArray.get(i)).append(".");
+                if(!key[position].toString().equalsIgnoreCase("id")) {
+                    overviewHolder.tvKey.setText(key[position].toString());
+                    JSONArray jsonArray = (JSONArray) overviewJson.get(key[position].toString());
+                    StringBuilder val = new StringBuilder();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        if (i < jsonArray.size() - 1)
+                            val.append(jsonArray.get(i)).append(", \n");
+                        else
+                            val.append(jsonArray.get(i)).append(".");
+                    }
+                    overviewHolder.tvValue.setText(val.toString());
                 }
-                overviewHolder.tvValue.setText(val.toString());
             }catch (Exception e){
                 e.printStackTrace();
             }

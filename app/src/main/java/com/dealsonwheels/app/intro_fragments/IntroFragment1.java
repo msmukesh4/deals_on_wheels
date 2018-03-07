@@ -38,11 +38,15 @@ public class IntroFragment1 extends Fragment {
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image_view);
         if (getArguments().getInt("fragment-number",0) == 1)
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.one));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.splash1));
         else if (getArguments().getInt("fragment-number",0) == 2)
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.two));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.splash2));
         else if (getArguments().getInt("fragment-number",0) == 3)
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.three));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.splash3));
+        else if (getArguments().getInt("fragment-number",0) == 4)
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.splash4));
+        else if (getArguments().getInt("fragment-number",0) == 5)
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.splash5));
         else
             imageView.setImageResource(R.mipmap.ic_launcher);
 

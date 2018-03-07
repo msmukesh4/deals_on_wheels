@@ -15,7 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_below="@+id/brand_image"
+        android:text="bdbwabdbwab dwadwadwadwa"
         android:layout_marginTop="5dp"/>
 
 </RelativeLayout>

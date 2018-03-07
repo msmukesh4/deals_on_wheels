@@ -26,9 +26,11 @@ public class IntroActivity extends AppIntro {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
-        addSlide(IntroFragment1.newInstance(1,"","first desc"));
-        addSlide(IntroFragment1.newInstance(2,"","second desc"));
-        addSlide(IntroFragment1.newInstance(3,"","third desc"));
+        addSlide(IntroFragment1.newInstance(1,"",""));
+        addSlide(IntroFragment1.newInstance(2,"",""));
+        addSlide(IntroFragment1.newInstance(3,"",""));
+        addSlide(IntroFragment1.newInstance(4,"",""));
+        addSlide(IntroFragment1.newInstance(5,"",""));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));

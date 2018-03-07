@@ -25,6 +25,7 @@ public class Constants {
             "BMW 200M", "AUDI 900Q", "BETTLE 3S", "BUCATI VERON", "LEMBORGINI GALLADO", "LEMBORGINI ADO", "LEMBORGINI LADO"
     };
     public static final String BASE_URL = "http://pstsolution.com/sellcar/";
+    public static final String ERROR_IMAGE = "https://cars.usnews.com/static/images/article/201510/125272/MINIP90139264_highRes.jpg";
 
     public static int PRICE_SLIDER_MIN_RANGE = 0;
     public static int PRICE_SLIDER_MAX_RANGE = 31;

@@ -24,7 +24,7 @@ public class TextSliderView extends BaseSliderView{
         ImageView target = (ImageView)v.findViewById(R.id.daimajia_slider_image);
         LinearLayout descLayout = (LinearLayout) v.findViewById(R.id.description_layout);
         if (SliderLayout.mShowText) {
-            descLayout.setVisibility(View.VISIBLE);
+            descLayout.setVisibility(View.GONE);
             TextView description = (TextView) v.findViewById(R.id.description);
             description.setText(getDescription());
         }else

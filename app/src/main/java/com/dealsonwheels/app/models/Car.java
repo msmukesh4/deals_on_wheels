@@ -51,7 +51,8 @@ public class Car {
     String profileImageUrl;
     @SerializedName("Price")
     long price;
-    ArrayList<String> extraImages;
+    @SerializedName("extraImages")
+    String[] extraImages;
 
 
     public Car(int productId, String productName){
@@ -63,7 +64,7 @@ public class Car {
                long kilometer, String fuelType, String transmission,
                String soldBy, String numberOfOwner, String registeredAt,
                String insurance, String lifeTimeTax, int profileId, String primaryImageUrl,
-               String firstName, String middleName, String lastName, String location, String channel, String profileImageUrl, long price) {
+               String firstName, String middleName, String lastName, String location, String channel, String profileImageUrl, long price, String[] extraImages) {
         this.productId = productId;
         this.productName = productName;
         this.yearOfMake = yearOfMake;
@@ -84,7 +85,7 @@ public class Car {
         this.channel = channel;
         this.profileImageUrl = profileImageUrl;
         this.price = price;
-        this.extraImages = new ArrayList<>();
+        this.extraImages = extraImages;
     }
 
     @Override
@@ -274,16 +275,11 @@ public class Car {
         this.price = price;
     }
 
-
-    public ArrayList<String> getExtraImages() {
+    public String[] getExtraImages() {
         return extraImages;
     }
 
-    public void setExtraImages(ArrayList<String> extraImages) {
+    public void setExtraImages(String[] extraImages) {
         this.extraImages = extraImages;
-    }
-
-    public void addExtraImage(String imageUrl){
-        this.extraImages.add(imageUrl);
     }
 }

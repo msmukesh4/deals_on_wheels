@@ -114,16 +114,18 @@ public class SpecificationFragment extends Fragment {
             }
 
             try {
-                specificationHolder.tvKey.setText(key[position].toString());
-                JSONArray jsonArray = (JSONArray) specificationJson.get(key[position].toString());
-                StringBuilder val = new StringBuilder();
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    if (i < jsonArray.size()-1)
-                        val.append(jsonArray.get(i)).append(", \n");
-                    else
-                        val.append(jsonArray.get(i)).append(".");
+                if(!key[position].toString().equalsIgnoreCase("id")) {
+                    specificationHolder.tvKey.setText(key[position].toString());
+                    JSONArray jsonArray = (JSONArray) specificationJson.get(key[position].toString());
+                    StringBuilder val = new StringBuilder();
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        if (i < jsonArray.size() - 1)
+                            val.append(jsonArray.get(i)).append(", \n");
+                        else
+                            val.append(jsonArray.get(i)).append(".");
+                    }
+                    specificationHolder.tvValue.setText(val.toString());
                 }
-                specificationHolder.tvValue.setText(val.toString());
             }catch (Exception e){
                 e.printStackTrace();
             }

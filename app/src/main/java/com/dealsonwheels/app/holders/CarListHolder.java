@@ -81,14 +81,17 @@ public class CarListHolder extends RecyclerView.ViewHolder{
                 carListHolder.progressBar.setVisibility(View.VISIBLE);
             }
         };
+        if (null != item.getCar().getPrimaryImageUrl())
+            if (!item.getCar().getPrimaryImageUrl().equalsIgnoreCase("null")) {
+                Picasso.with(context).load(item.getCar().getPrimaryImageUrl())
+                        .error(R.drawable.blank_image_car)
+                        .into(target);
 
-        Picasso.with(context).load("http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png")
-                .error(R.drawable.blank_image_car)
-                .into(target);
-
-
-        carListHolder.ivCarPrimaryImage.setTag(target);
-
+                carListHolder.ivCarPrimaryImage.setTag(target);
+            }else
+                carListHolder.ivCarPrimaryImage.setImageResource(R.drawable.blank_image_car);
+        else
+            carListHolder.ivCarPrimaryImage.setImageResource(R.drawable.blank_image_car);
 
         carListHolder.tvCarName.setText(item.getCar().getProductName());
         carListHolder.tvPrice.setText(String.valueOf(item.getCar().getPrice()));

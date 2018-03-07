@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Brand implements Serializable{
     @SerializedName("ID") public int id;
     @SerializedName("ProductBrand1") public String name;
-    @SerializedName("BrandImageUrl") public String url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+    @SerializedName("BrandImageUrl") public String url;
 
     public Brand(int id, String name, String url) {
         this.id = id;
@@ -45,7 +45,14 @@ public class Brand implements Serializable{
     }
 
     public String getUrl() {
-        return url;
+        try {
+            if (this.url == "null" || this.url == null)
+                return  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+            else
+                return url;
+        }catch (Exception e){
+            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+        }
     }
 
     public void setUrl(String url) {

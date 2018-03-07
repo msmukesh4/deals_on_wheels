@@ -29,11 +29,15 @@ import com.dealsonwheels.app.car_details_fragment.CarDetailsPagerAdapter;
 import com.dealsonwheels.app.models.Car;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -134,7 +138,10 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
                     carJson.optString("FuelType"), carJson.optString("Transmission"), carJson.optString("SoldBy"), carJson.optString("NoOfOwner"), carJson.optString("RegisteredAt"),
                     carJson.optString("Insurance"), carJson.optString("LifeTimeTax"), carJson.optInt("ProfileID"), carJson.optString("PrimaryImageURL"),
                     carJson.optString("FirstName"),carJson.optString("MiddleName"),carJson.optString("LastName"),carJson.optString("Location"),carJson.optString("Channel"),
-                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"));
+                    carJson.optString("ProfileImageURL"), carJson.optLong("Price"),toStringArray(carJson.optJSONArray("extraImages")));
+
+
+
             Log.d(TAG, "saveCarDetails: "+mCar);
             SetUpUIWithData(rootJson);
         }catch (Exception e){
@@ -162,10 +169,23 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
     private void SetUpUIWithData(JSONObject rootJson) throws JSONException {
 
         // slide show of images
+        int image_counter = 1;
         HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("1", "http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg");
-        url_maps.put("2", "http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png");
-        url_maps.put("3", "https://cars.usnews.com/static/images/article/201510/125272/MINIP90139264_highRes.jpg");
+        if (null != mCar.getPrimaryImageUrl())
+            if (!mCar.getPrimaryImageUrl().equalsIgnoreCase("null") && mCar.getPrimaryImageUrl().length() > 0)
+                url_maps.put(String.valueOf(image_counter++),mCar.getPrimaryImageUrl());
+        if (null != mCar.getExtraImages()) {
+            if (mCar.getExtraImages().length > 0) {
+                for (int i = 0; i < mCar.getExtraImages().length; i++)
+                    url_maps.put(String.valueOf(image_counter++), mCar.getExtraImages()[i]);
+            } else if (url_maps.size() == 0)
+                url_maps.put(String.valueOf(image_counter++), Constants.ERROR_IMAGE);
+        }else if (url_maps.size() == 0)
+            url_maps.put(String.valueOf(image_counter++),Constants.ERROR_IMAGE );
+
+//        url_maps.put(String.valueOf(image_counter++), "http://kitcarempire.com/wp-content/gallery/bugatti-veyron-toy-car/bugatti-veyron-replica-small-mini-08.jpg");
+//        url_maps.put(String.valueOf(image_counter++), "http://www.clker.com/cliparts/1/2/c/1/13975770108622529252013-lamborghini-gallardo-lp570-4-performante-editione-tecnica-photos_1-hi.png");
+//        url_maps.put(String.valueOf(image_counter++), "https://cars.usnews.com/static/images/article/201510/125272/MINIP90139264_highRes.jpg");
 
 
         for(String name : url_maps.keySet()){
@@ -270,8 +290,24 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
+        ArrayList<String> items = new ArrayList<String>();
         Toast.makeText(this,slider.getBundle().get("extra") + "",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getApplicationContext(),CarImageSlidesActivity.class));
+        if (null != mCar.getPrimaryImageUrl())
+            if (!mCar.getPrimaryImageUrl().equalsIgnoreCase("null") && mCar.getPrimaryImageUrl().length() > 0)
+                items.add(mCar.getPrimaryImageUrl());
+
+        if (null != mCar.getExtraImages())
+            if (mCar.getExtraImages().length > 0)
+                for (int i = 0; i < mCar.getExtraImages().length ; i++)
+                    items.add(mCar.getExtraImages()[i]);
+
+        if (items.size() == 0 )
+            Toast.makeText(getApplicationContext(),"There are no images to be displayed",Toast.LENGTH_LONG).show();
+        else{
+            Intent intent = new Intent(getApplicationContext(),CarImageSlidesActivity.class);
+            intent.putStringArrayListExtra("car_images",items);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -284,4 +320,15 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
 
     @Override
     public void onPageScrollStateChanged(int state) {}
+
+    public String[] toStringArray(JSONArray array) {
+        if(array==null)
+            return null;
+
+        String[] arr=new String[array.length()];
+        for(int i=0; i<arr.length; i++) {
+            arr[i]=array.optString(i);
+        }
+        return arr;
+    }
 }
