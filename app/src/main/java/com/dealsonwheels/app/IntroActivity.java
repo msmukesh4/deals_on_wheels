@@ -30,7 +30,6 @@ public class IntroActivity extends AppIntro {
         addSlide(IntroFragment1.newInstance(2,"",""));
         addSlide(IntroFragment1.newInstance(3,"",""));
         addSlide(IntroFragment1.newInstance(4,"",""));
-        addSlide(IntroFragment1.newInstance(5,"",""));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));
 //        addSlide(AppIntroFragment.newInstance("title", "desc", R.drawable.three, getResources().getColor(R.color.danger)));

@@ -4,7 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DealsOnWheels.iml" filepath="$PROJECT_DIR$/DealsOnWheels.iml" />
       <module fileurl="file://$PROJECT_DIR$/ImageSlideShow/ImageSlideShow.iml" filepath="$PROJECT_DIR$/ImageSlideShow/ImageSlideShow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImageSlideShow/ImageSlideShow.iml" filepath="$PROJECT_DIR$/ImageSlideShow/ImageSlideShow.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deals_on_wheels.iml" filepath="$PROJECT_DIR$/deals_on_wheels.iml" />
+      <module fileurl="file://$PROJECT_DIR$/touch-gallery-library/touch-gallery-library.iml" filepath="$PROJECT_DIR$/touch-gallery-library/touch-gallery-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/touch-gallery-library/touch-gallery-library.iml" filepath="$PROJECT_DIR$/touch-gallery-library/touch-gallery-library.iml" />
     </modules>
   </component>
