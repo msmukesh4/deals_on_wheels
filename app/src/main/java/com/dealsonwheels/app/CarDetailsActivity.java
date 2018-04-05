@@ -322,7 +322,7 @@ public class CarDetailsActivity extends AppCompatActivity implements BaseSliderV
     public void onPageScrollStateChanged(int state) {}
 
     public String[] toStringArray(JSONArray array) {
-        if(array==null)
+        if(array == null)
             return null;
 
         String[] arr=new String[array.length()];

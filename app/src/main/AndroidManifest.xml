@@ -40,7 +40,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".CarsListActivityOld"/>
-        <activity android:name=".CarsListActivity"/>
+        <activity android:name=".CarsListActivity"
+            android:launchMode="singleTop"/>
 
         <activity android:name=".CarDetailsActivity"></activity>
 

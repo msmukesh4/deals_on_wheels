@@ -93,14 +93,16 @@ public class BodyTypeFragment extends Fragment {
                 bodyTypeHolder = (BodyTypeHolder) convertView.getTag();
             }
 
-//            Picasso.with(context).load(bodyTypeList.get(position).url).into(bodyTypeHolder.ivBodyType);
-            Picasso.with(context).load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA").into(bodyTypeHolder.ivBodyType);
+            if (null != bodyTypeList.get(position).getUrl())
+                Picasso.with(context).load(bodyTypeList.get(position).getUrl()).into(bodyTypeHolder.ivBodyType);
+            else
+                bodyTypeHolder.ivBodyType.setVisibility(View.INVISIBLE);
             bodyTypeHolder.tvName.setText(bodyTypeList.get(position).name);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,String.valueOf(bodyTypeList.get(position).id),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,String.valueOf(bodyTypeList.get(position).id),Toast.LENGTH_SHORT).show();
                     LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getContext());
                     Intent intent = new Intent(NewCarDetailsSelectActivity.BODY_SELECTED);
                     // You can also include some extra data.

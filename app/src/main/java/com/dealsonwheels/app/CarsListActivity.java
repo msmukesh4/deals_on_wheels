@@ -93,7 +93,7 @@ public class CarsListActivity extends AppCompatActivity implements CarListAdapte
                 @Override
                 public void onResponse(Call<CarListAPIResponse> call, Response<CarListAPIResponse> response) {
 
-                    Log.d("StaticDataManager", "onResponse: "+response.code());
+                    Log.d("Car List", "onResponse: "+response.code());
                     Log.d(TAG, "onResponse: "+response.body().toString());
                     if (response.body().getCarList().size() > 0)
                         createList(response.body().getCarList());
@@ -118,7 +118,16 @@ public class CarsListActivity extends AppCompatActivity implements CarListAdapte
             adapter = new CarListAdapter(this,this);
             for (Car car : carArrayList)
                 adapter.addCar(car);
-            adapter.addAD(new Car(12,"Hello"));
+
+
+            /*
+             * for adding AD
+             * uncomment the following lien and put them
+             * into a loop with all ADs
+             */
+//            adapter.addAD(new Car(12,"Hello"));
+
+
             recyclerViewCars.setAdapter(adapter);
 
         }else {
@@ -167,7 +176,7 @@ public class CarsListActivity extends AppCompatActivity implements CarListAdapte
 
     // send data to server through API
     private void sendUserContactNumber(String s) {
-
+        
     }
 
     @Override
@@ -180,5 +189,11 @@ public class CarsListActivity extends AppCompatActivity implements CarListAdapte
     @Override
     public void onAdClicked(CarListViewItem item) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        finish();
     }
 }

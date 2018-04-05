@@ -93,13 +93,17 @@ public class BrandFragment extends Fragment{
                 brandHolder = (BrandHolder) convertView.getTag();
             }
 
-            Picasso.with(context).load(brandList.get(position).getUrl()).into(brandHolder.ivBrand);
+            if (null != brandList.get(position).getUrl())
+                Picasso.with(context).load(brandList.get(position).getUrl()).into(brandHolder.ivBrand);
+            else
+                brandHolder.ivBrand.setVisibility(View.INVISIBLE);
             brandHolder.tvName.setText(brandList.get(position).name);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,String.valueOf(brandList.get(position).id),Toast.LENGTH_SHORT).show();
+
+//                    Toast.makeText(context,String.valueOf(brandList.get(position).id),Toast.LENGTH_SHORT).show();
                     LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getContext());
                     Intent intent = new Intent(NewCarDetailsSelectActivity.BRAND_SELECTED);
                     // You can also include some extra data.

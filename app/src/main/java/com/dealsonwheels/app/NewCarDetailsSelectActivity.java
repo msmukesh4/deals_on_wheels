@@ -63,8 +63,8 @@ public class NewCarDetailsSelectActivity extends AppCompatActivity {
         lbm.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Toast.makeText(getApplicationContext(),"lets move forward",Toast.LENGTH_SHORT).show();
-                body_id = intent.getStringExtra("body_id");
+//                Toast.makeText(getApplicationContext(),"lets move forward",Toast.LENGTH_SHORT).show();
+//                body_id = intent.getStringExtra("body_id");
                 Intent mintent = new Intent(getApplicationContext(), CarsListActivity.class);
                 mintent.putExtra("type", CarsListActivity.NEW_CARS);
                 mintent.putExtra("min_price",min_price);
@@ -72,6 +72,7 @@ public class NewCarDetailsSelectActivity extends AppCompatActivity {
                 mintent.putExtra("body_type_id",body_id);
                 mintent.putExtra("brand_type_id",brand_id);
                 startActivity(mintent);
+                finish();
             }
         },new IntentFilter(BODY_SELECTED));
 

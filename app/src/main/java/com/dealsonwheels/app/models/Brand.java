@@ -46,12 +46,14 @@ public class Brand implements Serializable{
 
     public String getUrl() {
         try {
-            if (this.url == "null" || this.url == null)
-                return  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
-            else
+            if (this.url == "null" || this.url == null) {
+//                return  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+                return null;
+            } else
                 return url;
         }catch (Exception e){
-            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+//            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv-A0O1AIOkXTRk_SAPBk3uGRCNpimOd_kB7AhkL6pdz72OQ1VhA";
+            return null;
         }
     }
 

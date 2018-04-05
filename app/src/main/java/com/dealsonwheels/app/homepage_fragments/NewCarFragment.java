@@ -56,9 +56,11 @@ public class NewCarFragment extends Fragment{
         etCarName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),SelectActivity.class);
-                intent.putExtra("type","car_name");
-                getActivity().startActivityForResult(intent,1);
+                Intent intent = new Intent(getContext(),NewCarDetailsSelectActivity.class);
+                getActivity().startActivity(intent);
+//                Intent intent = new Intent(getContext(),SelectActivity.class);
+//                intent.putExtra("type","car_name");
+//                getActivity().startActivityForResult(intent,1);
             }
         });
 
